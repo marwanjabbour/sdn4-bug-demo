@@ -12,7 +12,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <neo4j.version>2.3.2</neo4j.version>
+        <neo4j.version>2.3.7</neo4j.version>
         <spring.version>4.2.5.RELEASE</spring.version>
         <sdn.version>4.1.2.RELEASE</sdn.version>
         <neo4j.ogm.version>2.0.3</neo4j.ogm.version>
