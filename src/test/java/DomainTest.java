@@ -1,13 +1,12 @@
-
-import models.edges.HasChild;
-import models.edges.LastChild;
-import models.nodes.Child;
-import models.nodes.Parent;
+import models.edges.LastDrama;
+import models.edges.PlayedInDrama;
+import models.nodes.Drama;
+import models.nodes.StageActor;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.data.neo4j.template.Neo4jOperations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.neo4j.template.Neo4jOperations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,24 +20,23 @@ public class DomainTest {
     private Neo4jOperations neo4jTemplate;
 
     @Test
-    public void shouldRetrieveAllAndLastChildren() {
+    public void shouldReloadEntitiesJustSaved() {
+        StageActor stageActor = new StageActor("first actor");
+        Drama firstDrama = new Drama("malade imaginaire");
+        Drama secondDrama = new Drama("Le cid");
 
+        stageActor.dramas.add(new PlayedInDrama(stageActor, firstDrama, "rel1"));
+        stageActor.dramas.add(new PlayedInDrama(stageActor, secondDrama, "rel2"));
+        stageActor.lastDrama = new LastDrama(stageActor, secondDrama, "last");
 
-        Parent parent0 = new Parent("Parent 0");
-        Child child01 = new Child("Child 01");
-        Child child02 = new Child("Child 02");
-
-        parent0.children.add(new HasChild(parent0, child01, "rel 1"));
-        parent0.children.add(new HasChild(parent0, child02, "rel 2"));
-        parent0.lastChild = new LastChild(parent0, child02, "rel 3");
-
-        neo4jTemplate.save(parent0);
+        neo4jTemplate.save(stageActor);
 
         neo4jTemplate.clear();
 
-        Parent p2 = neo4jTemplate.load(Parent.class, parent0.id);
-        Assert.assertEquals(p2.children.size(), 3);
-        Assert.assertNotNull(p2.lastChild);
+        StageActor reloadedActor = neo4jTemplate.load(StageActor.class, stageActor.id);
+
+        Assert.assertEquals(2, reloadedActor.dramas.size());
+        Assert.assertNotNull(reloadedActor.lastDrama);
     }
 
 }
