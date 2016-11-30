@@ -6,7 +6,7 @@ import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.Property;
 import org.neo4j.ogm.annotation.StartNode;
 
-public abstract class BaseEdge<T extends BaseNode> {
+public abstract class BaseEdge<T extends BaseNode, U extends BaseNode> {
 
     @GraphId
     public Long relationshipId;
@@ -18,13 +18,13 @@ public abstract class BaseEdge<T extends BaseNode> {
     public T start;
 
     @EndNode
-    public T end;
+    public U end;
 
     public BaseEdge() {
         super();
     }
 
-    public BaseEdge(T start, T end, String title) {
+    public BaseEdge(T start, U end, String title) {
         this.start = start;
         this.end = end;
         this.title = title;
