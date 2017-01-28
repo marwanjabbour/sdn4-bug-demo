@@ -14,8 +14,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <neo4j.version>2.3.7</neo4j.version>
         <spring.version>4.2.5.RELEASE</spring.version>
-        <sdn.version>4.1.5.RELEASE</sdn.version>
-        <neo4j.ogm.version>2.0.5</neo4j.ogm.version>
+        <sdn.version>4.1.6.RELEASE</sdn.version>
+        <neo4j.ogm.version>2.1.1</neo4j.ogm.version>
     </properties>
 
     <dependencies>
@@ -23,6 +23,16 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-neo4j</artifactId>
             <version>${sdn.version}</version>
+						<exclusions>
+							<exclusion>
+            		<groupId>org.neo4j</groupId>
+		            <artifactId>neo4j-ogm-core</artifactId>						
+							</exclusion>
+							<exclusion>
+            		<groupId>org.neo4j</groupId>
+		            <artifactId>neo4j-ogm-http-driver</artifactId>						
+							</exclusion>
+						</exclusions>
         </dependency>
 
 
@@ -31,6 +41,12 @@
             <groupId>org.neo4j.app</groupId>
             <artifactId>neo4j-server</artifactId>
             <version>${neo4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-ogm-core</artifactId>
+            <version>${neo4j.ogm.version}</version>
         </dependency>
 
         <dependency>
@@ -79,12 +95,14 @@
             <type>test-jar</type>
         </dependency>
 
+<!--
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-ogm-test</artifactId>
             <version>${neo4j.ogm.version}</version>
             <scope>test</scope>
         </dependency>
+-->
 
         <dependency>
             <groupId>org.neo4j.test</groupId>
